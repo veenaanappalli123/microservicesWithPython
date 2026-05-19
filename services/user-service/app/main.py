@@ -11,8 +11,20 @@
 # See the README for the full implementation.
 from fastapi import FastAPI
 
-app = FastAPI(title="user-service")
+from app.routes import router
+from app.database import Base, engine
+
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI(
+    title="user-service",
+    version="1.0.0"
+)
+
+app.include_router(router)
+
 
 @app.get("/health")
-async def health():
-      return {"status": "ok", "service": "user-service"}
+def health():
+    return {"status": "ok"}
+
