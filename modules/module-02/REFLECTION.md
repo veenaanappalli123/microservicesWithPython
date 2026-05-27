@@ -18,7 +18,7 @@ You built a service with distinct layers: models, schemas, repository, service, 
 
 Think about what happens six months later when someone new joins the team, or when you need to swap SQLite for PostgreSQL. What does the layered structure protect you from?
 
-> *Your answer:*
+> *Your answer:*---------Putting it all in one file would have been faster in the beginning. But once the project grows, it becomes really hard to understand what is happening and where things are breaking,the layered structure makes it easier to code and change the code , fix issues , so even if we change from sqllite to postgresql nothing should break since the logic is implemented seperately and clearly,,f a new developer joins the team after a few months, they can understand the project much faster because every file has one clear responsibility instead of one giant file doing everything.and it is messy , always clarity>>>>>>>complexity/...
 
 ---
 
@@ -30,7 +30,8 @@ Each service owns its data exclusively — no other service is allowed to touch 
 
 Give a concrete scenario, not a general principle.
 
-> *Your answer:*
+> *Your answer:*-----------------------f The User entity should only be controlled by user-service. If another service could directly write into the users table, it could easily create inconsistent or broken data.
+imagine the activity-service directly edits user records when someone logs in or plays a game. A bug there could accidentally overwrite usernames, emails, or even passwords. Then users would suddenly not be able to log in, and it would be difficult to track which service caused the issue.
 
 ---
 
@@ -42,7 +43,7 @@ You now have models, schemas, a repository, a service, and routes — five layer
 
 And at what point does the complexity start to pay off? Where is the tipping point?
 
-> *Your answer:*
+> *Your answer:*---------------The biggest cost is complexity and time. For a very small CRUD service, having five separate layers feels like a lot of setup for something simple. Even adding a small feature means touching multiple files instead of just one.but it is worth it , alwayss clarity >>>> confusion and mess, so yes , it is worth it , we value this structure in the time of an error or bug for sure , while debugging even if it takes time to debug but once we get what is wrong it is much more relieving that a quick fix in a mess, 
 
 ---
 
