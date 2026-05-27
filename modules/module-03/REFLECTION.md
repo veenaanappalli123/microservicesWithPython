@@ -47,3 +47,29 @@ What happens to the user experience if the slowest service in the chain takes 3 
 ---
 
 *Keep this file. You will refer back to it during the oral presentation.*
+
+
+
+###my answers
+
+
+# Reflection — Module 03
+
+## Question 1
+
+Without a gateway, the frontend would need to directly know every service URL and port like user-service on 8001, game-service on 8002, and activity-service on 8003. That means if even one service changes port or moves somewhere else, the frontend code also needs updates everywhere.
+The gateway makes this easier because the frontend only talks to one place, and the gateway forwards the request to the correct service internally. While doing this module I also understood that user-service and game-service themselves did not need any changes for the gateway to work, which showed the purpose of separation between services.
+
+---_____________________________________________________________________________
+
+## Question 2
+
+If user validation is skipped, activities could be created for users that do not even exist. That would create bad and inconsistent data in the database, so validating the user is very important and the request should fail immediately if the user is missing.
+The game-service case is different. The activity itself is still valid even if game-service is down, because the game data is only extra information added to the response. That is why returning `"game": null` is better than failing the whole request. During testing, when I stopped the game-service, the activity was still saved correctly, which helped me understand graceful degradation properly.
+
+---_____________________________________________________________________________________
+
+## Question 3
+
+If three services each take around 1 second, then the user may wait around 3 seconds because the request goes through multiple service calls one after another. This showed me how latency increases in microservice architecture.
+If one service completely goes down, dependent requests can also fail. But in this module, activity-service was designed in a smarter way where game-service failure does not completely stop the system. Only the optional game data is missing, while the main activity still works.
