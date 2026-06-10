@@ -15,6 +15,10 @@
 #   http://localhost:8001/docs
 
 from fastapi import FastAPI
+from app.database import Base, engine
+from app.models import User
+
+Base.metadata.create_all(bind=engine)
 
 from app.routes import router
 
